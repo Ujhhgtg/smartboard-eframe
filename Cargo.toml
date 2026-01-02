@@ -1,29 +1,31 @@
 [package]
-name = "eframe_template"
-version = "0.1.0"
-authors = ["Emil Ernerfeldt <emil.ernerfeldt@gmail.com>"]
+name = "smartboard_eframe"
+version = "0.0.1"
+authors = ["Fey Xie <feyxiexzf@gmail.com>"]
 edition = "2024"
-include = ["LICENSE-APACHE", "LICENSE-MIT", "**/*.rs", "Cargo.toml"]
-rust-version = "1.88"
-
-[package.metadata.docs.rs]
-all-features = true
-targets = ["x86_64-unknown-linux-gnu", "wasm32-unknown-unknown"]
+include = ["LICENSE", "**/*.rs", "Cargo.toml"]
 
 [dependencies]
-egui = "0.33.0"
-eframe = { version = "0.33.0", default-features = false, features = [
-    "accesskit",     # Make egui compatible with screen readers. NOTE: adds a lot of dependencies.
-    "default_fonts", # Embed the default egui fonts.
-    "glow",          # Use the glow rendering backend. Alternative: "wgpu".
-    "persistence",   # Enable restoring app state when restarting the app.
-    "wayland",       # To support Linux (and CI)
-    "x11",           # To support older Linux distributions (restores one of the default features)
+egui = "0.33.3"
+eframe = { version = "0.33.3", default-features = false, features = [
+    # "default_fonts", # embed the default egui fonts
+    "wgpu",
+    # "persistence",
+    "wayland",
 ] }
-log = "0.4.27"
-
-# You only need serde if you want app persistence:
-serde = { version = "1.0.219", features = ["derive"] }
+wgpu = { version = "27.0.1", features = ["webgpu", "webgl"] }
+winit = "0.30.12"
+pollster = "0.4.0"
+rfd = "0.16.0"
+image = "0.25.9"
+# tinyfiledialogs = "3.9.1"
+fontdb = "0.23.0"
+log = "0.4.29"
+# async-std = "1.13.2"
+futures = "0.3.31"
+# instant = { version = "0.1.13", features = ["wasm-bindgen"] }
+# web-time = "1.1.0"
+# serde = { version = "1.0.219", features = ["derive"] }
 
 # native:
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies]
@@ -31,8 +33,8 @@ env_logger = "0.11.8"
 
 # web:
 [target.'cfg(target_arch = "wasm32")'.dependencies]
-wasm-bindgen-futures = "0.4.50"
-web-sys = "0.3.70"              # to access the DOM (to hide the loading text)
+wasm-bindgen-futures = "0.4.56"
+web-sys = "0.3.83" # to access the DOM (to hide the loading text)
 
 [profile.release]
 opt-level = 2 # fast and small wasm
